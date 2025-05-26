@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 const PersonalInfo = ({ setStep, formData, setFormData }) => {
@@ -41,8 +41,6 @@ const PersonalInfo = ({ setStep, formData, setFormData }) => {
         } else {
             setFormData(prev => ({ ...prev, gender }))
         }
-
-        console.log(gender, genderInput)
 
         if (!gender && !genderInput) {
             errors.gender = " Gender is required";
@@ -154,13 +152,13 @@ const PersonalInfo = ({ setStep, formData, setFormData }) => {
                     <input name="oldPassword" onChange={setDataInForm} type="password" placeholder='Enter Your Current Password' className='placeholder:text-xs p-2 text-sm border border-gray-400 rounded-lg w-full bg-gray-100 text-black' />
                     {formErrors.oldPassword && <p className="text-red-500 text-sm">{formErrors.oldPassword}</p>}
                 </div>
-                
+
                 <div className='flex flex-col p-2 space-y-2'>
                     <label htmlFor="" className='text-sm lg:text-xl'>New Password</label>
                     <input name="newPassword" onChange={setDataInForm} type="password" placeholder='Enter Your New Password' className='placeholder:text-xs p-2 text-sm border border-gray-400 rounded-lg w-full bg-gray-100 text-black' />
                     {formErrors.newPassword && <p className="text-red-500 text-sm">{formErrors.newPassword}</p>}
                 </div>
-                
+
                 <button disabled={loading} onClick={handleForm} className='w-full border border-gray-500  py-1 lg:py-2 rounded-sm bg-blue-500'>{loading ? "Loading" : "Next"}</button>
             </form>
         </div>

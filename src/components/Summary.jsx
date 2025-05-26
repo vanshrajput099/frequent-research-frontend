@@ -6,6 +6,7 @@ const Summary = ({ formData }) => {
     const [imageUrl, setImageUrl] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [res, setRes] = useState(null);
 
     const handleFormSubmission = async () => {
         setLoading(true);
@@ -20,7 +21,7 @@ const Summary = ({ formData }) => {
                 `${import.meta.env.VITE_BACKEND_BASE_URL}/update`,
                 formDataToSend
             );
-            console.log(res)
+            setRes(res)
         } catch (error) {
             setError(error);
         } finally {
@@ -57,8 +58,9 @@ const Summary = ({ formData }) => {
                     })
                 }
             </div>
-            <button disabled={loading} onClick={handleFormSubmission} className="mt-5 w-full bg-blue-500 py-1 rounded-lg border border-gray-500">{loading? "Loading.." : "Submit"}</button>
+            <button disabled={loading} onClick={handleFormSubmission} className="mt-5 w-full bg-blue-500 py-1 rounded-lg border border-gray-500">{loading ? "Loading.." : "Submit"}</button>
             {error && <p className="text-red-500">{error.message}</p>}
+            {res.data.statusCode < 400 && <p className="text-center">User Created || Updated</p>}
         </div>
     )
 }
