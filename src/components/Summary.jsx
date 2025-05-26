@@ -60,7 +60,7 @@ const Summary = ({ formData }) => {
             </div>
             <button disabled={loading} onClick={handleFormSubmission} className="mt-5 w-full bg-blue-500 py-1 rounded-lg border border-gray-500">{loading ? "Loading.." : "Submit"}</button>
             {error && <p className="text-red-500">{error.message}</p>}
-            {res.data.statusCode < 400 && <p className="text-center">User Created || Updated</p>}
+            {res?.data.statusCode < 400 && <p className="text-center">User Created || Updated</p>}
         </div>
     )
 }
