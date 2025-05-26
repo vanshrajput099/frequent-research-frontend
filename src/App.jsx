@@ -19,7 +19,7 @@ const App = () => {
       </div>
 
       {/* Form Container */}
-      <div className="w-full lg:w-[35%] border mx-auto mt-10 p-5 bg-gray-900 rounded-xl border border-gray-700">
+      <div className="w-full lg:w-[35%] border mx-auto mt-10 p-5 bg-gray-900 rounded-xl border-gray-700">
         {
           step === 1 ? <PersonalInfo setStep={setStep} formData={formData} setFormData={setFormData} /> :
             step === 2 ? <ProfessionalDetails setStep={setStep} formData={formData} setFormData={setFormData} /> :

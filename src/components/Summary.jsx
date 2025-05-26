@@ -35,6 +35,9 @@ const Summary = ({ formData }) => {
             <div className="space-y-4 mt-5">
                 {
                     Object.keys(formData).map((ele) => {
+                        if (ele === "password") {
+                            return null;
+                        }
                         if (ele === "profilePicture") {
                             if (formData[ele]) {
                                 const reader = new FileReader();

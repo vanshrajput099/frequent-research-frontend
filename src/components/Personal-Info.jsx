@@ -8,6 +8,28 @@ const PersonalInfo = ({ setStep, formData, setFormData }) => {
     const [imagePreview, setImagePreview] = useState(null);
     const [gender, setGender] = useState(undefined);
     const [genderInput, setGenderInput] = useState();
+    const [passwordStrength, setPasswordStrength] = useState(null);
+
+    const passwordStrengthFunction = (password = "") => {
+        let score = 0;
+        if (password.length >= 8) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^A-Za-z0-9]/.test(password)) score++;
+        if (score === 3) setPasswordStrength("Strong");
+        else if (score === 2) setPasswordStrength("Medium");
+        else setPasswordStrength("Weak");
+    }
+
+    useEffect(() => {
+        passwordStrengthFunction(formData.password);
+    }, [formData.password])
+
+    const validatePassword = (password) => {
+        const minLength = password.length >= 8;
+        const hasNumber = /[0-9]/.test(password);
+        const hasSpecialChar = /[^A-Za-z0-9]/.test(password);
+        return minLength && hasNumber && hasSpecialChar;
+    }
 
     const setDataInForm = (e) => {
         setFormErrors({});
@@ -61,12 +83,19 @@ const PersonalInfo = ({ setStep, formData, setFormData }) => {
             }
         }
 
-        if (formData.oldPassword && !formData.newPassword) {
-            errors.newPassword = "New Password is required";
+        if (formData.oldPassword && !formData.password) {
+            errors.password = "New Password is required";
         }
 
-        if (!formData.oldPassword && formData.newPassword) {
+        if (!formData.oldPassword && formData.password) {
             errors.oldPassword = "Current Password is required";
+        }
+
+        if (formData.oldPassword && formData.password) {
+            const res = validatePassword(formData.password);
+            if (!res) {
+                errors.password = "Password should be more than 8 characters and have atleast 1 number and 1 special character";
+            }
         }
 
         if (Object.keys(errors).length > 0) {
@@ -155,8 +184,9 @@ const PersonalInfo = ({ setStep, formData, setFormData }) => {
 
                 <div className='flex flex-col p-2 space-y-2'>
                     <label htmlFor="" className='text-sm lg:text-xl'>New Password</label>
-                    <input name="newPassword" onChange={setDataInForm} type="password" placeholder='Enter Your New Password' className='placeholder:text-xs p-2 text-sm border border-gray-400 rounded-lg w-full bg-gray-100 text-black' />
-                    {formErrors.newPassword && <p className="text-red-500 text-sm">{formErrors.newPassword}</p>}
+                    <input name="password" onChange={setDataInForm} type="password" placeholder='Enter Your New Password' className='placeholder:text-xs p-2 text-sm border border-gray-400 rounded-lg w-full bg-gray-100 text-black' />
+                    {formData.password && <p>Password Strength : {passwordStrength}</p>}
+                    {formErrors.password && <p className="text-red-500 text-sm">{formErrors.password}</p>}
                 </div>
 
                 <button disabled={loading} onClick={handleForm} className='w-full border border-gray-500  py-1 lg:py-2 rounded-sm bg-blue-500'>{loading ? "Loading" : "Next"}</button>
